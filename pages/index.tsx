@@ -30,7 +30,7 @@ function Home() {
       const { scrollHeight } = document.body;
       const { scrollTop } = document.documentElement;
 
-      if (!fetching && scrollTop + innerHeight >= scrollHeight) {
+      if (!fetching && scrollTop + innerHeight >= scrollHeight - 60) {
         fetching = true;
         if (hasNextPage) await fetchNextPage();
         fetching = false;
