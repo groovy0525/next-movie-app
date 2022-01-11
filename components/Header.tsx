@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
@@ -9,20 +9,26 @@ function Header() {
 
   const [toggle, setToggle] = useState(false);
 
-  const handleToggle = (e: MouseEvent) => {
-    if (e.currentTarget.tagName === "BUTTON") {
+  const handleToggle = (e: any) => {
+    const tag = e.target.tagName;
+
+    if (tag === "BUTTON" || tag === "svg" || tag === "path") {
       setToggle(prev => !prev);
     } else {
       setToggle(false);
     }
   };
 
+  useEffect(() => {
+    window.addEventListener("click", handleToggle);
+  }, []);
+
   return (
     <>
       <HeaderBlock>
         <Title>
           <Link href="/">
-            <a onClick={handleToggle}>Movie App</a>
+            <a>Movie App</a>
           </Link>
         </Title>
         <MenuList isSmall={toggle} onClick={handleToggle}>
@@ -47,7 +53,8 @@ function Header() {
             </Link>
           </Menu>
         </MenuList>
-        <HamburgerButton onClick={handleToggle}>
+        <HamburgerButton>
+          {/* <HamburgerButton onClick={handleToggle}> */}
           <GiHamburgerMenu />
         </HamburgerButton>
       </HeaderBlock>
