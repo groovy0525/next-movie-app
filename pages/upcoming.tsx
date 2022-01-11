@@ -6,19 +6,18 @@ import GridLayout from "../components/GridLayout";
 import Seo from "../components/Seo";
 import { getImagePath } from "../lib/getImage";
 import { MovieType } from "../types";
-import { getPopularMovies } from "./api/movies";
+import { getUpcomingMovies } from "./api/movies";
 
 const random: number = Math.floor(Math.random() * 5);
 
-function Home() {
+function Upcoming() {
   const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    ["popular"],
-    async ({ pageParam = 1 }) => await getPopularMovies(pageParam),
+    ["upcoming"],
+    async ({ pageParam = 1 }) => await getUpcomingMovies(pageParam),
     {
       getNextPageParam: (lastPage, pages) => {
-        const MAX_PAGE = 500;
         const nextPage = pages.length + 1;
-        return nextPage <= MAX_PAGE ? nextPage : undefined;
+        return nextPage <= lastPage.total_pages ? nextPage : undefined;
       },
     }
   );
@@ -43,7 +42,7 @@ function Home() {
 
   return (
     <>
-      <Seo title="Movie App | Popular" />
+      <Seo title="Movie App | Upcoming" />
       {isLoading || !data ? (
         <p>Loading...</p>
       ) : (
@@ -71,4 +70,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Upcoming;
