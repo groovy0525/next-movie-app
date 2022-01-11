@@ -11,8 +11,12 @@ function Header() {
 
   const handleToggle = (e: any) => {
     const tag = e.target.tagName;
+    const classes = tag === "BUTTON" ? e.target.className : "";
+    const isMatch = classes && classes.substring(0, 6) === "Header";
 
-    if (tag === "BUTTON" || tag === "svg" || tag === "path") {
+    if (tag === "svg" || tag === "path") {
+      setToggle(prev => !prev);
+    } else if (tag === "BUTTON" && isMatch) {
       setToggle(prev => !prev);
     } else {
       setToggle(false);
